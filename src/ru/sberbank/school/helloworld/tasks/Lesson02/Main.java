@@ -24,5 +24,11 @@ public class Main {
 
         andrey1.equals(andrey3);
 
+        //TODO: adequate checks are needed.
+        //TODO: like this:
+        if(andrey1.marry(null)){
+            System.out.println("ERROR: manIgor.marry(null)");
+        }
+
     }
 }
