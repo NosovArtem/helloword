@@ -22,16 +22,16 @@ public class Person {
      * @return - returns true if this person has another gender than passed person and they are not husband and wife, false otherwise
      */
     public boolean marry(Person person) {
-        if (man == person.man) {
+        if (man == person.man) { //TODO: null pointer exception
             return false;
         }
         if (spouse != null && spouse.equals(person)) {
             return false;
         }
-        if (spouse != null) {
+        if (spouse != null) { //TODO: separated method for check is better variant
             divorce();
         }
-        if (person.spouse != null) {
+        if (person.spouse != null) { //TODO: extra condition
             person.divorce();
         }
         spouse = person;
