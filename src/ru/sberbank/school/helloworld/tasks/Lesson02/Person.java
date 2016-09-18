@@ -1,4 +1,4 @@
-package ru.sberbank.school.helloworld.tasks.Lesson02;
+package ru.sberbank.school.helloworld.tasks.lesson02;
 
 import java.util.Objects;
 
@@ -22,18 +22,18 @@ public class Person {
      * @return - returns true if this person has another gender than passed person and they are not husband and wife, false otherwise
      */
     public boolean marry(Person person) {
-        if (man == person.man) { //TODO: null pointer exception
+        if (person == null) {
+            System.out.println("ERROR: " + this.toString() + ".marry(null)");
+            return false;
+        }
+        if (man == person.man) {
             return false;
         }
         if (spouse != null && spouse.equals(person)) {
             return false;
         }
-        if (spouse != null) { //TODO: separated method for check is better variant
-            divorce();
-        }
-        if (person.spouse != null) { //TODO: extra condition
-            person.divorce();
-        }
+        divorce();
+        person.divorce();
         spouse = person;
         person.spouse = this;
         return true;
@@ -72,4 +72,12 @@ public class Person {
         return Objects.hash(man, name);
     }
 
+    @Override
+    public String toString() {
+        if (man) {
+            return "man" + name;
+        } else {
+            return "woman" + name;
+        }
+    }
 }
