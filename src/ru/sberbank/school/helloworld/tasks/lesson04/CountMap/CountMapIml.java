@@ -1,4 +1,4 @@
-package ru.sberbank.school.helloworld.tasks.lesson04;
+package ru.sberbank.school.helloworld.tasks.lesson04.CountMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,3 +67,4 @@ public class CountMapIml<T> implements CountMap<T> {
         }
     }
 }
+
