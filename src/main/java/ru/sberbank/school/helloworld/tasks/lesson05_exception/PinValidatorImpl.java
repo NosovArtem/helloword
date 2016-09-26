@@ -18,7 +18,6 @@ public class PinValidatorImpl implements PinValidator {
         if (dateError > dateNow.getTime()) {
             long l = dateError - dateNow.getTime();
             AccountIsLockedException e = new AccountIsLockedException(l);
-            e.setMillisecond(l);
             throw e;
         }
         if (countPinError >= 3) {
@@ -26,9 +25,20 @@ public class PinValidatorImpl implements PinValidator {
             countPinError = 0;
             throw new AccountIsLockedException();
         }
-        if ((bankAccountPin != clientPin) && 1000 <= clientPin && clientPin <= 9999) {
+        if (!(1000 <= clientPin && clientPin <= 9999) || bankAccountPin != clientPin) {
             countPinError++;
             throw new IncorrectPinCodeException();
         }
+
+    }
+
+    @Override
+    public int getCountPinError() {
+        return countPinError;
+    }
+
+    @Override
+    public int getBankAccountPin() {
+        return bankAccountPin;
     }
 }

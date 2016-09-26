@@ -7,4 +7,7 @@ public interface PinValidator {
 
     void verifyPin(int clientPin) throws IncorrectPinCodeException, AccountIsLockedException;
 
+    int getCountPinError();
+
+    int getBankAccountPin();
 }

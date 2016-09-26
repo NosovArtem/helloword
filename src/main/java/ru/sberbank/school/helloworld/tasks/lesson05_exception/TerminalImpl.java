@@ -7,7 +7,7 @@ import ru.sberbank.school.helloworld.tasks.lesson05_exception.interfaces.Termina
 
 public class TerminalImpl implements Terminal {
     private final TerminalServer server = new TerminalServerImpl();
-    private final PinValidator pinValidator = new PinValidatorImpl();
+    private final PinValidatorImpl pinValidator = new PinValidatorImpl();
     private boolean access = false;
 
 
@@ -69,4 +69,15 @@ public class TerminalImpl implements Terminal {
         }
     }
 
+    public boolean isAccess() {
+        return access;
+    }
+
+    public TerminalServer getServer() {
+        return server;
+    }
+
+    public PinValidator getPinValidator() {
+        return pinValidator;
+    }
 }

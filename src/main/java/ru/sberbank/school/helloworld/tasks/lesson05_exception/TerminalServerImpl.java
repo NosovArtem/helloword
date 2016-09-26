@@ -35,4 +35,8 @@ public class TerminalServerImpl implements TerminalServer {
     public long checkBalance() {
         return balance;
     }
+
+    public long getBalance() {
+        return balance;
+    }
 }
