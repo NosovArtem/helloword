@@ -20,18 +20,17 @@ public class CollectionUtils {
     }
 
     public static <E> List<E> limit(List<? extends E> source, int size) {
-        //java doc opisanie
         return new ArrayList<>(source.subList(0, size));
     }
 
-    public static <E> void add(List<? super E> dest, E e) {
+    public static <E> void add(List<E> dest, E e) {
         dest.add(e);
     }
 
-    public static <E> void removeAll(List<? extends E> removeFrom, List<? extends E> c2) {
+    public static <E> void removeAll(List<?> removeFrom, List<?> c2) {
         removeFrom.removeAll(c2);
     }
-//ничего не записываем. поэтому можно extends  и там и там. ничто не записывается..тип не выжен
+
 
     public static <E> boolean containsAll(List<? extends E> c1, List<? extends E> c2) {
         return c1.containsAll(c2);
@@ -53,6 +52,7 @@ public class CollectionUtils {
                 newList.add(entry);
             }
         }
+        Collections.sort(newList);
         return newList;
     }
 
@@ -63,6 +63,7 @@ public class CollectionUtils {
                 newList.add(entry);
             }
         }
+        Collections.sort(newList, comparator);
         return newList;
     }
 }

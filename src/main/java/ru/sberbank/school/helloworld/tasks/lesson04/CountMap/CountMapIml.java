@@ -14,13 +14,17 @@ public class CountMapIml<T> implements CountMap<T> {
 
     @Override
     public void add(T t) {
-        if (map.containsKey(t)) {
-            map.put(t, map.get(t) + 1);
-        } else {
-            map.put(t, 1);
-        }
+//        if (map.containsKey(t)) {
+//            map.put(t, map.get(t) + 1);
+//        } else {
+//            map.put(t, 1);
+//        }
+        add(t, 1);
     }
-    //map.merge
+
+    private void add(T t, int i) {
+        map.merge(t, i, Integer::sum);
+    }
 
     @Override
     public int getCount(T t) {
@@ -33,9 +37,7 @@ public class CountMapIml<T> implements CountMap<T> {
 
     @Override
     public int remove(T t) {
-
-        //Optional.ofNullable(map.get(t).orElse(0));
-        return 1;
+        return Optional.ofNullable(map.remove(t)).orElse(0);
     }
 
     @Override
@@ -45,26 +47,30 @@ public class CountMapIml<T> implements CountMap<T> {
 
     @Override
     public void addAll(CountMap<? extends T> source) {
-     /*   for (Map.Entry<T, Integer> entry : source.toMap().entrySet()) {
-            if (map.containsKey(entry.getKey())) {
-                map.put(entry.getKey(), map.get(entry.getKey()) + entry.getValue());
-            } else {
-                map.put(entry.getKey(), entry.getValue());
-            }
-        }*/
-
+//        for (Map.Entry<? extends T, Integer> entry : source.toMap().entrySet()) {
+//            if (map.containsKey(entry.getKey())) {
+//                map.put(entry.getKey(), map.get(entry.getKey()) + entry.getValue());
+//            } else {
+//                map.put(entry.getKey(), entry.getValue());
+//            }
+//        }
+        if(source == null) {
+            throw new NullPointerException();
+        }
+        source.toMap().forEach(this::add);
     }
 
     @Override
     public Map<T, Integer> toMap() {
-        return map;
+        return new HashMap<>(map);
     }
 
     @Override
     public void toMap(Map<? super T, Integer> destination) {
-        for (Map.Entry<T, Integer> entry : map.entrySet()) {
-            destination.put(entry.getKey(), entry.getValue());
-        }
+//        for (Map.Entry<T, Integer> entry : map.entrySet()) {
+//            destination.put(entry.getKey(), entry.getValue());
+//        }
+        destination.putAll(map);
     }
 }
 
