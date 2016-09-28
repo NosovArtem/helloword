@@ -2,6 +2,7 @@ package ru.sberbank.school.helloworld.tasks.lesson04.CountMap;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class CountMapIml<T> implements CountMap<T> {
 
@@ -19,6 +20,7 @@ public class CountMapIml<T> implements CountMap<T> {
             map.put(t, 1);
         }
     }
+    //map.merge
 
     @Override
     public int getCount(T t) {
@@ -31,11 +33,9 @@ public class CountMapIml<T> implements CountMap<T> {
 
     @Override
     public int remove(T t) {
-        int result = map.get(t);
-        if (map.containsKey(t)) {
-            map.remove(t);
-        }
-        return result;
+
+        //Optional.ofNullable(map.get(t).orElse(0));
+        return 1;
     }
 
     @Override
@@ -44,14 +44,14 @@ public class CountMapIml<T> implements CountMap<T> {
     }
 
     @Override
-    public void addAll(CountMap<T> source) {
-        for (Map.Entry<T, Integer> entry : source.toMap().entrySet()) {
+    public void addAll(CountMap<? extends T> source) {
+     /*   for (Map.Entry<T, Integer> entry : source.toMap().entrySet()) {
             if (map.containsKey(entry.getKey())) {
                 map.put(entry.getKey(), map.get(entry.getKey()) + entry.getValue());
             } else {
                 map.put(entry.getKey(), entry.getValue());
             }
-        }
+        }*/
 
     }
 
@@ -61,7 +61,7 @@ public class CountMapIml<T> implements CountMap<T> {
     }
 
     @Override
-    public void toMap(Map<T, Integer> destination) {
+    public void toMap(Map<? super T, Integer> destination) {
         for (Map.Entry<T, Integer> entry : map.entrySet()) {
             destination.put(entry.getKey(), entry.getValue());
         }
