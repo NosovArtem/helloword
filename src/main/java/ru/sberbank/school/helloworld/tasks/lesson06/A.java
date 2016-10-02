@@ -1,8 +1,6 @@
 package ru.sberbank.school.helloworld.tasks.lesson06;
 
-/**
- * Created by svetlana on 25.09.16.
- */
+
 @Component
 public class A { //TODO: не абстрактный и не интерфейс
 
@@ -12,20 +10,21 @@ public class A { //TODO: не абстрактный и не интерфейс
     @Autowired
     private CImlp d;
 
-
     @PostConstruct
-    public void init() {
+    private void init() {
         //TODO: some logic
+        System.err.println("init!!!!");
     }
 
     public void execute() {
-        System.out.println(b.getSomeData());
-        System.out.println(d.getSomeStr());
+        System.err.println(b.getSomeData());
+        System.err.println(d.getSomeStr());
     }
 
     @PreDestroy
-    public void destroy() {
+    private void destroy() {
         //TODO: some logic
+        System.err.println("destroy!!!!");
     }
 
 }

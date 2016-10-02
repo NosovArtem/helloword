@@ -1,8 +1,13 @@
 package ru.sberbank.school.helloworld.tasks.lesson06;
 
+
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -10,10 +15,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/**
- * Created by svetlana on 25.09.16.
- */
-public class Factory implements Factorable {
+
+class Factory implements Factorable {
 
     private final Package basePackage;
     private Map<Class<?>, List<Object>> beans = new HashMap<>();
@@ -49,6 +52,7 @@ public class Factory implements Factorable {
                 .getResource(basePackage.getName().replace(".", "/"))
                 .getFile());
 
+
         final List<Class<?>> classes = getAllClassesByPredicate(baseFile, c ->
                 c.isAnnotationPresent(Component.class));
 
@@ -56,8 +60,28 @@ public class Factory implements Factorable {
 
         for (Class<?> c : classes) {
             if (!beans.containsKey(c)) {
+                if (Modifier.isAbstract(c.getModifiers())) {
+                    throw new RuntimeException(c + " can not created abstract class");
+                }
                 createObjectAndReg(c, beansTypes);
             }
+        }
+        beans.forEach((beanClass, objects) -> objects.forEach(o -> invokeMethod(o, beanClass, PostConstruct.class)));
+    }
+
+    private void invokeMethod(Object bean, Class<?> beanCls, Class<?> marker) {
+        try {
+            for (Method method : beanCls.getDeclaredMethods()) {
+                Annotation[] annotations = method.getDeclaredAnnotations();
+                for (Annotation annotation : annotations) {
+                    if (annotation.annotationType().equals(marker)) {
+                        method.invoke(bean);
+                    }
+                }
+            }
+
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            System.err.println(beanCls + " " + marker.getName() + " error when used invoke ");
         }
     }
 
@@ -80,7 +104,7 @@ public class Factory implements Factorable {
         Class<?> superCls = c.getSuperclass();
         Class<?> intrf[] = c.getInterfaces();
 
-        if(superCls != null) {
+        if (superCls != null) {
             obtainGraphHelper2(superCls, result);
             result.add(superCls);
         }
@@ -90,16 +114,26 @@ public class Factory implements Factorable {
         }
     }
 
+    private final Set<Class<?>> cycles = new HashSet<>();
+
     private void createObjectAndReg(Class<?> beanCls, Map<Class<?>, List<Class<?>>> beansTypes)
             throws IllegalAccessException, InstantiationException {
 
         final List<Field> dependsOrig = getAllDependsFor(beanCls);
-        for (Field f : dependsOrig) {
-            Class<?> depBeanCls = findBeanClsFor(f.getType(), beansTypes);
-            if (!beans.containsKey(depBeanCls)) {
-                createObjectAndReg(depBeanCls, beansTypes);
+
+        if (!cycles.contains(beanCls)) {
+            cycles.add(beanCls);
+
+            for (Field f : dependsOrig) {
+                Class<?> depBeanCls = findBeanClsFor(f.getType(), beansTypes);
+                if (!beans.containsKey(depBeanCls)) {
+                    createObjectAndReg(depBeanCls, beansTypes);
+                }
             }
+        } else {
+            throw new RuntimeException("Find cyclic dependencies");
         }
+
         final Object bean = beanCls.newInstance();
         setDepends(bean, dependsOrig);
         registerBean(bean, beanCls, beansTypes.get(beanCls));
@@ -182,6 +216,7 @@ public class Factory implements Factorable {
 
     public void close() {
         //TODO: PreDestroy
+        beans.forEach((aClass, objects) -> objects.forEach(o -> invokeMethod(o, aClass, PreDestroy.class)));
     }
 
     public void registryShutdownHook() {

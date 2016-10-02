@@ -1,8 +1,6 @@
 package ru.sberbank.school.helloworld.tasks.lesson06;
 
-
 public class Test {
-
 
     //TODO:
     // 1. бин должен быть классом, не интерфейсом, не абстрактным классом
@@ -16,7 +14,7 @@ public class Test {
 
     public static void main(String[] args) {
         Factorable f = Factory.createNew(ru.sberbank.school.helloworld.tasks.lesson06.Test.class);
-        f.registryShutdownHook();
+       /* f.registryShutdownHook();*/
 
         //Object o = f.getBean(Object.class);
 
@@ -24,10 +22,9 @@ public class Test {
         a.execute();
 
         D d = f.getBean(D.class);
-        System.out.println(d.getSomeStr());
+        System.err.println(d.getSomeStr());
 
         f.close();
     }
-
 
 }
