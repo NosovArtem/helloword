@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class KeyForMap {
 
-    String methodName;
+    private String methodName;
 
-    List<Object> args;
+    private List<Object> args;
 
     public KeyForMap(String methodName, Object[] args) {
         this.methodName = methodName;

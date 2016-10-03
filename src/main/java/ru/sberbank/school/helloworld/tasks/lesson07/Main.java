@@ -1,8 +1,6 @@
 package ru.sberbank.school.helloworld.tasks.lesson07;
 
-/**
- * Created by Admin on 02.10.2016.
- */
+
 public class Main {
     public static void main(String[] args) {
 

@@ -10,12 +10,8 @@ import java.util.Map;
 
 public class MyProxy implements InvocationHandler {
 
-    private static Map<KeyForMap, Object> cache = new HashMap<>();
+    private Map<KeyForMap, Object> cache = new HashMap<>();
     private Object obj;
-
-    public static Map<KeyForMap, Object> getCache() {
-        return cache;
-    }
 
     public static Object newInstance(Object obj) {
         return Proxy.newProxyInstance(
@@ -24,7 +20,7 @@ public class MyProxy implements InvocationHandler {
                 new MyProxy(obj));
     }
 
-    public MyProxy(Object obj) {
+    private MyProxy(Object obj) {
         this.obj = obj;
     }
 
