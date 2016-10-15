@@ -9,9 +9,11 @@ public class Main {
 
 
         final String pluginRootDirectory = "C:\\SBTJavaSchool\\projectHelloWorld\\helloworld\\target\\classes\\";
-        PluginManager pluginManager = new PluginManager(pluginRootDirectory);
+        PluginLoader pluginManager = new PluginLoader(pluginRootDirectory);
         Plugin plugin1 = (Plugin) pluginManager.load("ru.sberbank.school.helloworld.tasks.lesson08.pluginManager.plugins.plugin1", "MyPlugin").newInstance();
         plugin1.doUseful();
+        Plugin plugin2 = (Plugin) pluginManager.load("ru.sberbank.school.helloworld.tasks.lesson08.pluginManager.plugins.plugin2", "MyPlugin").newInstance();
+        plugin2.doUseful();
 
     }
 }

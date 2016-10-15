@@ -1,22 +1,19 @@
 package ru.sberbank.school.helloworld.tasks.lesson08.pluginManager;
 
 import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
+import java.nio.file.Files;
 
 
-public class PluginManager extends ClassLoader {
+public class PluginLoader extends ClassLoader {
 
     private final String pluginRootDirectory;
 
-    public PluginManager(String pluginRootDirectory) {
+    public PluginLoader(String pluginRootDirectory) {
         this.pluginRootDirectory = pluginRootDirectory;
     }
-
-    @Override
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
-        return super.loadClass(name);
-    }
+    
 
     public Class<?> load(String pluginName, String pluginClassName) throws ClassNotFoundException {
 
@@ -36,7 +33,7 @@ public class PluginManager extends ClassLoader {
 
 
         try {
-            byte[] classBytes = loadFileAsBytes(f);
+            byte[] classBytes = Files.readAllBytes(f.toPath());
             result = defineClass(name, classBytes, 0, classBytes.length);
         } catch (IOException e) {
             throw new ClassNotFoundException("Cannot load class " + name + ": " + e);
@@ -48,26 +45,12 @@ public class PluginManager extends ClassLoader {
     }
 
     private File findFile(String name) {
-        File f = new File(pluginRootDirectory + File.separatorChar + name.replace('/', File.separatorChar) + ".class");
+        File f = new File(pluginRootDirectory + File.separatorChar + name + ".class");
         if (f.exists()) {
             return f;
         } else {
             return null;
         }
-    }
-
-    public static byte[] loadFileAsBytes(File file) throws IOException {
-        byte[] result = new byte[(int) file.length()];
-        FileInputStream f = new FileInputStream(file);
-        try {
-            f.read(result, 0, result.length);
-        } finally {
-            try {
-                f.close();
-            } catch (Exception e) {
-            }
-        }
-        return result;
     }
 
 }
