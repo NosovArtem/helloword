@@ -1,4 +1,4 @@
-package ru.sberbank.school.helloworld.tasks.lesson08.encrypted;
+package ru.sberbank.school.helloworld.tasks.lesson08_Classloader.encrypted;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class EncryptedLoader extends ClassLoader {
         byte[] result = new byte[classBytes.length];
         byte[] keyarr = keyWord.getBytes();
         for (int i = 0; i < classBytes.length; i++) {
-            result[i] = (byte) (classBytes[i] ^ keyarr[i % keyarr.length]);
+            result[i] = (byte) (classBytes[i] - keyarr.length);
         }
         return result;
     }

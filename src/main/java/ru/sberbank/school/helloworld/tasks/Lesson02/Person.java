@@ -5,11 +5,42 @@ import java.util.Objects;
 public class Person {
     private final boolean man;
     private final String name;
+    private Integer age;
     private Person spouse;
 
     public Person(boolean man, String name) {
         this.man = man;
         this.name = name;
+    }
+
+    public Person(boolean man, String name, Integer age) {
+        this.man = man;
+        this.name = name;
+        this.age = age;
+    }
+
+    public boolean isMan() {
+        return man;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Person getSpouse() {
+        return spouse;
+    }
+
+    public void setSpouse(Person spouse) {
+        this.spouse = spouse;
     }
 
     /**

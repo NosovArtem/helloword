@@ -1,4 +1,4 @@
-package ru.sberbank.school.helloworld.tasks.lesson08.encrypted;
+package ru.sberbank.school.helloworld.tasks.lesson08_Classloader.encrypted;
 
 
 import java.io.File;
@@ -13,7 +13,7 @@ public class Main {
         byte[] keyarr = keyWord.getBytes();
         byte[] result = new byte[arr.length];
         for (int i = 0; i < arr.length; i++) {
-            result[i] = (byte) (arr[i] ^ keyarr[i % keyarr.length]);
+            result[i] = (byte) (arr[i] + keyarr.length);
         }
         return result;
     }
@@ -22,7 +22,7 @@ public class Main {
             InstantiationException, ClassNotFoundException {
 
         final String rootDirectory = "C:\\SBTJavaSchool\\projectHelloWorld\\helloworld\\target\\classes";
-        final String className = "ru\\sberbank\\school\\helloworld\\tasks\\lesson08\\encrypted\\plugin\\MyPlugin";
+        final String className = "ru\\sberbank\\school\\helloworld\\tasks\\lesson08_Classloader\\encrypted\\plugin\\MyPlugin";
         final String key = "KEY";
 
         String fileRead = rootDirectory + "\\" + className + ".class";

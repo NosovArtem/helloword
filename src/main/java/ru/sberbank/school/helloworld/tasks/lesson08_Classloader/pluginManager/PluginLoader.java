@@ -1,4 +1,4 @@
-package ru.sberbank.school.helloworld.tasks.lesson08.pluginManager;
+package ru.sberbank.school.helloworld.tasks.lesson08_Classloader.pluginManager;
 
 import java.io.File;
 
