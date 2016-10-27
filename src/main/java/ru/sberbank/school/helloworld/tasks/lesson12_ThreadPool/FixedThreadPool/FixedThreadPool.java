@@ -8,9 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FixedThreadPool implements ThreadPool {
-    private final int nThreads;
-    private final List<Worker> threads;
-    private final LinkedList queue;
+    private  final int nThreads;
+    private  final List<Worker> threads;
+    private  final LinkedList queue;
+    private boolean isStopped = false;
 
     public FixedThreadPool(int nThreads) {
         this.nThreads = nThreads;
@@ -20,7 +21,7 @@ public class FixedThreadPool implements ThreadPool {
     @Override
     public void start() {
         for (int i = 0; i < nThreads; i++) {
-            threads.add(new Worker());
+            threads.add(new Worker(queue));
         }
         for (Worker thread:threads) {
             thread.start();
@@ -34,28 +35,12 @@ public class FixedThreadPool implements ThreadPool {
         }
     }
 
-    private class Worker extends Thread {
-        public void run() {
-            Runnable r;
-
-            while (true) {
-                synchronized (queue) {
-                    while (queue.isEmpty()) {
-                        try {
-                            queue.wait();
-                        } catch (InterruptedException ignored) {
-                        }
-                    }
-
-                    r = (Runnable) queue.removeFirst();
-                }
-
-                try {
-                    r.run();
-                } catch (RuntimeException e) {
-
-                }
-            }
+    public synchronized void stop(){
+        this.isStopped = true;
+        for(Worker thread : threads){
+            thread.doStop();
         }
     }
+
+
 }

@@ -15,7 +15,7 @@ public class Task implements Runnable{
     public void run() {
         System.out.println(this.getClass().getSimpleName() + " № " + i );
         try {
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.SECONDS.sleep(3);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
