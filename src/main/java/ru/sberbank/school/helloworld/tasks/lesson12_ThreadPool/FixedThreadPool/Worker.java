@@ -35,7 +35,7 @@ public class Worker extends Thread {
     }
     public synchronized void doStop(){
         isStopped = true;
-        this.interrupt(); //break pool thread out of dequeue() call.
+        this.interrupt();
     }
 
     public synchronized boolean isStopped(){
