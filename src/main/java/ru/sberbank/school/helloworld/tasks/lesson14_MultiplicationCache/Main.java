@@ -1,7 +1,7 @@
 package ru.sberbank.school.helloworld.tasks.lesson14_MultiplicationCache;
 
 
-import org.apache.log4j.Logger;
+
 import ru.sberbank.school.helloworld.tasks.lesson07.Calculator;
 import ru.sberbank.school.helloworld.tasks.lesson07.MyCalculator;
 
@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Main {
-    private static Logger log = Logger.getLogger(Main.class.getName());
     public static void main(String[] args) {
 
         Calculator calculator = new MyCalculator();

@@ -17,8 +17,6 @@ public class MultiplicationCacheProxy implements InvocationHandler {
     private Map<KeyForMap, Object> cache = new ConcurrentHashMap<>();
     private Map<KeyForMap, Lock> lockMap = new ConcurrentHashMap<>();
     private Object obj;
-    //private static Logger log = Logger.getLogger(MultiplicationCacheProxy.class.getSimpleName());
-
 
     public static Object newInstance(Object obj) {
         return Proxy.newProxyInstance(
@@ -35,13 +33,10 @@ public class MultiplicationCacheProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object value;
         System.out.println("Thread : " + "-" + Thread.currentThread().getName() + "-" + " Included in the method INVOKE");
-        //log.info("Thread : " + "-" + Thread.currentThread().getName() + "-" + " Included in the method INVOKE");
 
         if (!method.isAnnotationPresent(Cache.class)) {
             System.out.println("This method is not cached");
-            //log.info("This method is not cached");
             value = method.invoke(obj, args);
-
         }
 
         final KeyForMap key = new KeyForMap(method.getName(), args);
@@ -56,27 +51,22 @@ public class MultiplicationCacheProxy implements InvocationHandler {
             }
         }
 
-
         lock.lock();
         System.out.println("Thread : " + "-" + Thread.currentThread().getName() + "-" + " LOCK ");
-        //log.info("Thread : " + "-" + Thread.currentThread().getName() + "-" + " LOCK ");
+
         value = cache.get(key);
         if (value == null) {
             value = method.invoke(obj, args);
             cache.put(key, value);
             System.out.println("Thread : " + "-" + Thread.currentThread().getName() + "-" + " cached result ");
-            //log.info("Thread : " + "-" + Thread.currentThread().getName() + "-" + " cached result ");
         } else {
             System.out.println("Thread : " + "-" + Thread.currentThread().getName() + "-" + " the result obtained from the cache ");
-            //log.info("Thread : " + "-" + Thread.currentThread().getName() + "-" + " the result obtained from the cache ");
+
         }
-
-
         lock.unlock();
         System.out.println("Thread : " + "-" + Thread.currentThread().getName() + "-" + " UNLOCK ");
-        //log.info("Thread : " + "-" + Thread.currentThread().getName() + "-" + " UNLOCK ");
-
 
         return value;
     }
+
 }
