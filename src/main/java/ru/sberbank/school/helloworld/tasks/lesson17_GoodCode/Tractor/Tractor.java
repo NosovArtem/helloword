@@ -1,4 +1,4 @@
-package ru.sberbank.school.helloworld.tasks.lesson17_GoodCode.refactoring;
+package ru.sberbank.school.helloworld.tasks.lesson17_GoodCode.Tractor;
 
 public class Tractor {
 
