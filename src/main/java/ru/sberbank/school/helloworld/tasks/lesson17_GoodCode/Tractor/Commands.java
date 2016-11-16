@@ -3,7 +3,7 @@ package ru.sberbank.school.helloworld.tasks.lesson17_GoodCode.Tractor;
 public enum Commands {
     FORWARD {
         @Override
-        public void command(Tractor tractor) {
+        public void command(Tractor tractor) throws TractorInDitchException {
             System.out.println("Move");
             tractor.moveForwards();
         }
@@ -16,5 +16,5 @@ public enum Commands {
         }
     };
 
-    public abstract void command(Tractor tractor);
+    public abstract void command(Tractor tractor) throws TractorInDitchException;
 }

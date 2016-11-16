@@ -13,11 +13,11 @@ public class TractorImpl implements Tractor {
         this.orientation = orientation;
     }
 
-    public void move(String command) {
+    public void move(String command) throws TractorInDitchException {
         Commands.valueOf(command).command(this);
     }
 
-    public void moveForwards() {
+    public void moveForwards() throws TractorInDitchException {
         orientation.moveForwards(this);
         checkField();
     }
@@ -26,7 +26,7 @@ public class TractorImpl implements Tractor {
         orientation.turnClockwise(this);
     }
 
-    private void checkField() {
+    private void checkField() throws TractorInDitchException {
         if (!position.isPositionInsideField(field)) {
             throw new TractorInDitchException("Tractor left field border." +
                     " Position [" + position.getX() + "," + position.getY() + "]" +

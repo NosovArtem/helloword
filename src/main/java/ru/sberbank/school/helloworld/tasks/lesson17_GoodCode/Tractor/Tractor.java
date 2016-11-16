@@ -2,9 +2,9 @@ package ru.sberbank.school.helloworld.tasks.lesson17_GoodCode.Tractor;
 
 public interface Tractor {
 
-    void move(String command);
+    void move(String command) throws TractorInDitchException;
 
-    void moveForwards();
+    void moveForwards() throws TractorInDitchException;
 
     void turnClockwise();
 
